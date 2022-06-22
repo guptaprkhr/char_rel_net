@@ -1,0 +1,129 @@
+% File tacl2018v2.tex
+% Sep 20, 2018
+
+% The English content of this file was modified from various *ACL instructions
+% by Lillian Lee and Kristina Toutanova
+%
+% LaTeXery is mostly all adapted from acl2018.sty.
+
+%% Package options:
+%% Short version: "hyperref" and "submission" are the defaults.
+%% More verbose version:
+%% Most compact command to produce a submission version with hyperref enabled
+%%    \usepackage[]{tacl2018v2}
+%% Most compact command to produce a "camera-ready" version
+%%    \usepackage[acceptedWithA]{tacl2018v2}
+%% Most compact command to produce a double-spaced copy-editor's version
+%%    \usepackage[acceptedWithA,copyedit]{tacl2018v2}
+%
+%% If you need to disable hyperref in any of the above settings (see Section
+%% "LaTeX files") in the TACL instructions), add ",nohyperref" in the square
+%% brackets. (The comma is a delimiter in case there are multiple options specified.)
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2021}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{url}
+
+\usepackage[]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\renewcommand{\UrlFont}{\ttfamily\small}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+%\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\usepackage{color, colortbl}
+\definecolor{LightRed}{rgb}{0.88,1,1}
+
+\usepackage{xspace,mfirstuc,tabulary}
+\newcommand{\dateOfLastUpdate}{Sept. 20, 2018}
+\newcommand{\styleFileVersion}{tacl2018v2}
+
+\usepackage{todonotes}
+\setlength{\marginparwidth}{3.4cm}
+
+
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\newcommand{\ex}[1]{{\sf #1}}
+
+
+\title{Using text and embedding models to learn \\
+Character and Character Relationship embeddings}
+
+\author{First Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \texttt{email@domain} \\\And
+  Second Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \texttt{email@domain} \\}
+
+\date{}
+
+
+% Author information does not appear in the pdf unless the "acceptedWithA" option is given
+% See tacl2018v2.sty for other ways to format author information
+
+\date{}
+\input{math_commands.tex}
+\begin{document}
+\maketitle
+%\begin{abstract}
+%todo
+%\end{abstract}
+
+\section{Introduction}
+\section{Formulation}
+Let $S_1,\ldots, S_n$ be the sequence of $n$ sentences/paragraphs forming a piece of literature (play, novel, script etc.). 
+We will be using a pretrained model such as \sentencebert (\sbert) \citep{reimers-2019-sentence-bert} or \stov \citep{pagliardini-etal-2018-unsupervised} to obtain embeddings of these sentences/paragraphs.
+Let $v_S$ denote the pre-trained sentence representation of a sentence S. 
+Let $c_1,\ldots,c_k$ denote the $k$ characters in the piece. 
+We will denote the representation of the character $c_i$ by the embedding $C_i$. 
+We also select a set of words which either can indicate a specific quality of an individual character(like hero, villain, evil, friendly, religious) 
+or indicate a specific quality of relationship between two characters(like friendly, hostile, mother, father, son, daughter etc.). 
+Lets call this set of $m$ words $\{w_1,\ldots,w_m\}$. 
+We will use a matrix $U$ to embed these words where the $i^{th}$ row $u_i$ represents the $w_i$.
+We will use a network $f_{rel}$ to denote the relationship between two characters, e.g., $f_{rel}(C_i,C_j)$ represents a vector embodying the relationship between two characters $C_i$ and $C_j$.
+
+Now, we will use contextual relationship to formulate similarity score based relationships to train the character embeddings, relationship embeddings and the relationship network $f_{rel}$.
+Let $c_i$ and $c_j$ occur in a sentence/paragraph $S_k$.  Then we would like the following dot-product scores to be high after training -
+\begin{itemize}
+  \item $c_i^Tv_{S_k}$ since the sentence $S_k$ is talking about the character $c_i$ it is highly like to contain information about the characteristics of $c_i$.
+  \item $c_j^Tv_{S_k}$ (same rationale as above)
+  \item $f_{rel}(c_i,c_j)^Tv_{S_k}$ since the sentence involves the two characters $c_i$ and $c_j$ it is highly like to contain an interaction between the two characters which might be indicative of the relationship between them.
+  \item Let $w_l \in S_k$ then we also want $f_{rel}(c_i,c_j)^Tu_{l}$ to be high as well as $w_l$ is highly likely to denote the relationship between $c_i$ and $c_j$.
+  \item Similarly, we want to keep $c_i^Tu_{l}$ and $c_j^Tu_{l}$ to be high as well.
+\end{itemize}
+We can replace one of the vectors in the above dot-product formulations with a randomly chosen one to obtain negative dot product pairs where we would like to keep the dot product low and finally come up with a similar loss function as \wtov.
+
+\bibliography{bibliography}
+\bibliographystyle{acl_natbib}
+\clearpage
+
+\appendix
+
+
+
+
+\end{document}

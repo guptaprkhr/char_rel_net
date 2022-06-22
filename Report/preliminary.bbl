@@ -1,0 +1,21 @@
+\begin{thebibliography}{2}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Pagliardini et~al.(2018)Pagliardini, Gupta, and
+  Jaggi}]{pagliardini-etal-2018-unsupervised}
+Matteo Pagliardini, Prakhar Gupta, and Martin Jaggi. 2018.
+\newblock \href {https://doi.org/10.18653/v1/N18-1049} {Unsupervised learning
+  of sentence embeddings using compositional n-gram features}.
+\newblock In \emph{Proceedings of the 2018 Conference of the North {A}merican
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies, Volume 1 (Long Papers)}, pages 528--540, New Orleans,
+  Louisiana. Association for Computational Linguistics.
+
+\bibitem[{Reimers and Gurevevych(2019)}]{reimers-2019-sentence-bert}
+Nils Reimers and Iryna Gurevevych. 2019.
+\newblock \href {https://arxiv.org/abs/1908.10084} {Sentence-bert: Sentence
+  embeddings using siamese bert-networks}.
+\newblock In \emph{Proceedings of the 2019 Conference on Empirical Methods in
+  Natural Language Processing}. Association for Computational Linguistics.
+
+\end{thebibliography}
